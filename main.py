@@ -41,16 +41,21 @@ a = Automato(e)
 #for e in a.estados['q0']:
 automatos = [a]
 for automato in a.clonar('epsilon', False):
-    automato.caminhos = ['q1']
     automatos.append(automato)
-
-for automato in automatos:
-    print(automato.estado_atual)
 
 for simbolo in cadeia:
     _automatos = []
     for automato in automatos:
         l = [automato for automato in automato.clonar(simbolo)]
+        #permite que o automato faça transicoes epsilons
+        for aut in l:
+            #caso haja uma epsilons entre as próximas transições ele manda um clone realizar ela
+            if 'epsilon' in aut.estado_atual['proximos']:
+                h = aut.clonar('epsilon')[0]
+                #remove a anterior, pois ele deu um "pulo"
+                pulado = h.caminhos.pop(-2)
+                h.caminhos[-1] = pulado+'->'+h.caminhos[-1]
+                l.append(h)
         for e in l:
             _automatos.append(e)
         automatos = _automatos

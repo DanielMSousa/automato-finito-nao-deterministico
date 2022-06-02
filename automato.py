@@ -21,8 +21,6 @@ class Automato:
 
                 a.estado_atual = a.estados[e]
 
-
-
                 a.aceito = a.estado_atual['final']
                 #
                 #else:
