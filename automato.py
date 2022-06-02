@@ -16,7 +16,12 @@ class Automato:
                 a = copy.deepcopy(self)
                 if registrar:
                     a.caminhos.append(e)
+                else:
+                    a.caminhos = [e]
+
                 a.estado_atual = a.estados[e]
+
+
 
                 a.aceito = a.estado_atual['final']
                 #
