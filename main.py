@@ -8,14 +8,15 @@ e = {
         'final': False,
         'proximos': {
             '1': ['q1', 'q0'],
-            '0': ['q0']
+            '0': ['q0'],
+            'epsilon': ['q1']
         }
     },
     'q1' : {
       'inicial': False,
       'final': False,
       'proximos': { 
-          '1': ['q2']
+          '1': ['q2'],
       }
     },
     'q2' : {
@@ -33,10 +34,18 @@ e = {
     }
 }
 
-cadeia = '1111'
+cadeia = '10'
 
 a = Automato(e)
+
+#for e in a.estados['q0']:
 automatos = [a]
+for automato in a.clonar('epsilon', False):
+    automato.caminhos = ['q1']
+    automatos.append(automato)
+
+for automato in automatos:
+    print(automato.estado_atual)
 
 for simbolo in cadeia:
     _automatos = []

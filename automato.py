@@ -6,19 +6,22 @@ class Automato:
         self.estado_atual = estados['q0']
         self.caminhos = ['q0']
         #depois checar se o estado inicial é estado final
-        self.aceito = False
+        self.aceito = self.estado_atual['final']
 
-    def clonar(self, simbolo):
+
+    def clonar(self, simbolo, registrar=True):
         caminhos = []
         if simbolo in self.estado_atual['proximos']:
             for e in self.estado_atual['proximos'][simbolo]:
                 a = copy.deepcopy(self)
-                a.caminhos.append(e)
+                if registrar:
+                    a.caminhos.append(e)
                 a.estado_atual = a.estados[e]
-                if(a.estado_atual['final']):
-                    a.aceito = True
-                else:
-                    a.aceito = False
+
+                a.aceito = a.estado_atual['final']
+                #
+                #else:
+                #    a.aceito = False
                 caminhos.append(a)
                 continue
         else:
