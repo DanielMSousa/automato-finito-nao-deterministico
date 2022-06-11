@@ -1,71 +1,52 @@
 from automato import Automato, mortas
+from get_txt import retorna_estados
 
-aceito = False
+def is_automato_aceito(automato):
+    if automato.aceito:
+        return 'automato aceito'
+    return 'automato rejeitado'
 
-e = {
-    'q0' : {
-        'inicial': True,
-        'final': False,
-        'proximos': {
-            '1': ['q1', 'q0'],
-            '0': ['q0'],
-            'epsilon': ['q1']
-        }
-    },
-    'q1' : {
-      'inicial': False,
-      'final': False,
-      'proximos': { 
-          '1': ['q2'],
-      }
-    },
-    'q2' : {
-      'inicial': False,
-      'final': False,
-      'proximos': { 
-          '0': ['q3']
-      }
-    },
-    'q3' : {
-      'inicial': False,
-      'final': True,
-      'proximos': { 
-      }
-    }
-}
+resposta = 'S'
 
-cadeia = '10'
+while (resposta.upper() == 'S' and resposta.upper() != 'N'):
 
-a = Automato(e)
+    aceito = False
 
-#for e in a.estados['q0']:
-automatos = [a]
-for automato in a.clonar('epsilon', False):
-    automatos.append(automato)
+    e = retorna_estados('automato_config.txt')
 
-for simbolo in cadeia:
-    _automatos = []
+    cadeia = input('Insira uma cadeia para testar o automato: ')
+
+    a = Automato(e)
+
+    #for e in a.estados['q0']:
+    automatos = [a]
+    for automato in a.clonar('epsilon', False):
+        automatos.append(automato)
+
+    for simbolo in cadeia:
+        _automatos = []
+        for automato in automatos:
+            l = [automato for automato in automato.clonar(simbolo)]
+            #permite que o automato faça transicoes epsilons
+            for aut in l:
+                #caso haja uma epsilons entre as próximas transições ele manda um clone realizar ela
+                if 'epsilon' in aut.estado_atual['proximos'] and aut.vivo:
+                    h = aut.clonar('epsilon')[0]
+                    #remove a anterior, pois ele deu um "pulo"
+                    pulado = h.caminhos.pop(-2)
+                    h.caminhos[-1] = f"{pulado}->{h.caminhos[-1]}"
+                    l.append(h)
+            for e in l:
+                _automatos.append(e)
+            automatos = _automatos
+
+    for pos, automato in enumerate(_automatos):
+        print(f"[automato-{pos + 1}]:{automato.caminhos} |-> {is_automato_aceito(automato)}")
+
     for automato in automatos:
-        l = [automato for automato in automato.clonar(simbolo)]
-        #permite que o automato faça transicoes epsilons
-        for aut in l:
-            #caso haja uma epsilons entre as próximas transições ele manda um clone realizar ela
-            if 'epsilon' in aut.estado_atual['proximos']:
-                h = aut.clonar('epsilon')[0]
-                #remove a anterior, pois ele deu um "pulo"
-                pulado = h.caminhos.pop(-2)
-                h.caminhos[-1] = pulado+'->'+h.caminhos[-1]
-                l.append(h)
-        for e in l:
-            _automatos.append(e)
-        automatos = _automatos
+        aceito = aceito or automato.aceito
 
-for automato in _automatos:
-    print(automato.caminhos)
+    #print(mortas)
 
-for automato in automatos:
-    aceito = aceito or automato.aceito
-
-print(mortas)
-
-print(f'aceita? {aceito}')
+    print(f'aceita? {aceito}')
+    resposta = input('Deseja processar novamente ? [S, N]: ')
