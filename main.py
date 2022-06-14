@@ -37,6 +37,14 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
     automatos = [a]
     for automato in a.clonar('epsilon', False):
         automatos.append(automato)
+        if 'epsilon' in automato.estado_atual['proximos'] and automato.vivo:
+            h = automato.clonar('epsilon')
+            for a in h:
+                #remove a anterior, pois ele deu um "pulo"
+                pulado = a.caminho.pop(-2)
+                a.caminho[-1] = f"{a.caminho[-1]}"
+                #Adiciona o clone que foi pro epsílon na lista
+                automatos.append(a)
     
     if len(cadeia) != 0:
         for simbolo in cadeia:
@@ -48,12 +56,13 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
                 for aut in l:
                     #caso haja uma epsilons entre as próximas transições ele manda um clone realizar ela
                     if 'epsilon' in aut.estado_atual['proximos'] and aut.vivo:
-                        h = aut.clonar('epsilon')[0]
-                        #remove a anterior, pois ele deu um "pulo"
-                        pulado = h.caminho.pop(-2)
-                        h.caminho[-1] = f"{pulado}->{h.caminho[-1]}"
-                        #Adiciona o clone que foi pro epsílon na lista
-                        l.append(h)
+                        h = aut.clonar('epsilon')
+                        for a in h:
+                            #remove a anterior, pois ele deu um "pulo"
+                            pulado = a.caminho.pop(-2)
+                            a.caminho[-1] = f"{pulado}->{a.caminho[-1]}"
+                            #Adiciona o clone que foi pro epsílon na lista
+                            l.append(a)
                 for e in l:
                     _automatos.append(e)
                 automatos = _automatos
