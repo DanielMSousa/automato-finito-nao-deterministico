@@ -53,7 +53,11 @@ def retorna_estados(arquivo):
         print("O autômato deve ter um estado inicial")
         return None
     else:
-        estados_configs[linhas[2].split('=')[1]]['inicial'] = True
+        if linhas[2].split('=')[1] in estados_configs:
+            estados_configs[linhas[2].split('=')[1]]['inicial'] = True
+        else:
+            print('Seu estado inicial nao esta incluso nos estados')
+            return None
 
 
     if linhas[3].split('=')[1] != '':
