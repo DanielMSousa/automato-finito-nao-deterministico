@@ -49,8 +49,8 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
                 if 'epsilon' in aut.estado_atual['proximos'] and aut.vivo:
                     h = aut.clonar('epsilon')[0]
                     #remove a anterior, pois ele deu um "pulo"
-                    pulado = h.caminhos.pop(-2)
-                    h.caminhos[-1] = f"{pulado}->{h.caminhos[-1]}"
+                    pulado = h.caminho.pop(-2)
+                    h.caminho[-1] = f"{pulado}->{h.caminho[-1]}"
                     #Adiciona o clone que foi pro epsílon na lista
                     l.append(h)
             for e in l:
@@ -58,7 +58,7 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
             automatos = _automatos
 
     for pos, automato in enumerate(_automatos):
-        print(f"[automato-{pos + 1}]:{automato.caminhos} |-> {is_automato_aceito(automato)}")
+        print(f"[automato-{pos + 1}]:{automato.caminho} |-> {is_automato_aceito(automato)}")
 
     is_cadeia_aceita(automatos, aceito)
 
