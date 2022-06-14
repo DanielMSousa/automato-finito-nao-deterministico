@@ -40,6 +40,11 @@ def retorna_estados(arquivo):
         print('epsilon não pode ser incluso no alfabeto')
         return None
 
+    #checa se o automato vai receber algum estado:
+    if(checa_entrada(linhas[1])):
+        print('O automato precisa ter pelo menos um estado')
+        return None
+
     #checa se o estado inicial está certo
     if len(linhas[2].split('=')[1].split(',')) > 1:
         print("O autômato não pode ter mais de um estado inicial.")
