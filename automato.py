@@ -1,12 +1,14 @@
 import copy
+
+
 mortas = []
+
 class Automato:
     def __init__(self, estados):
         inicial = self.buscando_inicial(estados)
         self.estados = estados
         self.estado_atual = estados[inicial]
         self.caminhos = [inicial]
-        #depois checar se o estado inicial é estado final
         self.aceito = self.estado_atual['final']
         self.vivo = True
 
@@ -51,19 +53,3 @@ class Automato:
             caminhos.append(a)
 
         return caminhos
-
-class Estado:
-  def init(self, estado , inicial, final, proximos):
-    self.estado = estado
-    self.inicial = inicial
-    self.final = final
-    self.proximos = proximos
-
-  def asdict(self):
-    return {
-        self.estado: {
-            'inicial': self.inicial,
-            'final': self.final,
-            'proximos': self.proximos
-        }
-    }

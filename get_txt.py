@@ -1,4 +1,3 @@
-
 def retorna_estados(arquivo):
 
     arq = open(f"{arquivo}")
@@ -44,7 +43,3 @@ def retorna_estados(arquivo):
             estados_configs[transicao_estados[0]]['proximos'][transicao_estados[2]] = [transicao_estados[1]] 
 
     return estados_configs
-
-
-
-

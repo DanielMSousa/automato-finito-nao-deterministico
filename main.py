@@ -1,6 +1,18 @@
 from automato import Automato, mortas
 from get_txt import retorna_estados
 
+def is_cadeia_aceita(automatos, aceito):
+    for automato in automatos:
+        aceito = aceito or (automato.aceito and automato.vivo)
+    
+    print()
+
+    if aceito:
+        print('Como pelo menos um dos autômatos foi aceito, a cadeia foi aceita')
+    else:
+        print('Nenhum dos autômatos foi aceito, logo a cadeia foi rejeitada')
+
+
 def is_automato_aceito(automato):
     if automato.aceito:
         return 'automato aceitou'
@@ -18,7 +30,6 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
 
     a = Automato(e)
 
-    #for e in a.estados['q0']:
     automatos = [a]
     for automato in a.clonar('epsilon', False):
         automatos.append(automato)
@@ -43,10 +54,9 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
     for pos, automato in enumerate(_automatos):
         print(f"[automato-{pos + 1}]:{automato.caminhos} |-> {is_automato_aceito(automato)}")
 
-    for automato in automatos:
-        aceito = aceito or automato.aceito
+    #for automato in automatos:
+    #    aceito = aceito or automato.aceito
 
-    #print(mortas)
+    is_cadeia_aceita(automatos, aceito)
 
-    print(f'aceita? {aceito}')
     resposta = input('Deseja processar novamente ? [S, N]: ')
