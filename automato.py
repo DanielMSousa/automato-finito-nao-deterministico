@@ -8,7 +8,7 @@ class Automato:
         inicial = self.buscando_inicial(estados)
         self.estados = estados
         self.estado_atual = estados[inicial]
-        self.caminhos = [inicial]
+        self.caminho = [inicial]
         self.aceito = self.estado_atual['final']
         self.vivo = True
 
@@ -24,32 +24,34 @@ class Automato:
                 return estado
 
     def clonar(self, simbolo, registrar=True):
-        caminhos = []
+        #caminho é onde os clones colocados
+        automatos = []
         if simbolo in self.estado_atual['proximos'] and self.vivo:
-            for e in self.estado_atual['proximos'][simbolo]:
+            for estado in self.estado_atual['proximos'][simbolo]:
                 a = copy.deepcopy(self)
                 if registrar:
-                    a.caminhos.append(e)
+                    a.caminho.append(estado)
                 else:
-                    a.caminhos = [e]
+                    #quando tem epsilon no início vem pra cá
+                    #ao invés de registrar como uma transição nova põe como estado inicial
+                    a.caminho = [estado]
 
-                a.estado_atual = a.estados[e]
+                #O estado atual vira o novo estado para onde ele foi
+                a.estado_atual = a.estados[estado]
 
                 a.aceito = a.estado_atual['final']
-                #
-                #else:
-                #    a.aceito = False
-                caminhos.append(a)
+
+                automatos.append(a)
                 continue
         else:
-            #print('morreu')
-            if self.caminhos[-1]:
-                self.caminhos.append(None)
-                mortas.append(self.caminhos)
+            #Morreu
+            if self.caminho[-1]:
+                self.caminho.append(None)
+                mortas.append(self.caminho)
 
             self.aceito = False
             self.vivo = False
             a = copy.deepcopy(self)
-            caminhos.append(a)
+            automatos.append(a)
 
-        return caminhos
+        return automatos
