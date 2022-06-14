@@ -31,8 +31,9 @@ def retorna_estados(arquivo):
 
     estados_configs[linhas[2].split('=')[1]]['inicial'] = True
 
-    for estado in linhas[3].split('=')[1].split(','):
-        estados_configs[estado]['final'] = True
+    if linhas[3].split('=')[1] != '':
+        for estado in linhas[3].split('=')[1].split(','):
+            estados_configs[estado]['final'] = True
 
     for transicao in linhas[5:]:
         transicao_estados = transicao.split(',')

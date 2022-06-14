@@ -15,8 +15,8 @@ def is_cadeia_aceita(automatos, aceito):
 
 def is_automato_aceito(automato):
     if automato.aceito:
-        return 'automato aceito'
-    return 'automato rejeitado'
+        return 'automato aceitou'
+    return 'automato rejeitou'
 
 resposta = 'S'
 
