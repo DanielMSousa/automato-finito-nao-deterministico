@@ -3,8 +3,8 @@ from get_txt import retorna_estados
 
 def is_automato_aceito(automato):
     if automato.aceito:
-        return 'automato aceito'
-    return 'automato rejeitado'
+        return 'automato aceitou'
+    return 'automato rejeitou'
 
 resposta = 'S'
 
