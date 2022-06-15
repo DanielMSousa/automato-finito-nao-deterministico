@@ -13,5 +13,3 @@ def procura_epsilon_cadeia(lista_estados, r=[]):
     if(len(r) == tamanho):
         return r
     return procura_epsilon_cadeia(lista_estados, r)
-
-print(procura_epsilon_cadeia(lista_estados, ['q0']))

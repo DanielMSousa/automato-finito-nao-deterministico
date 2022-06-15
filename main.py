@@ -33,10 +33,7 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
 
     cadeia = input('Insira uma cadeia para testar o automato: ')
 
-    a = Automato(e)
-
-    automatos = [a]
-
+    automatos = []
     for inicial in procura_epsilon_cadeia(e, ['q0']):
         automatos.append(Automato(e, inicial))
 
