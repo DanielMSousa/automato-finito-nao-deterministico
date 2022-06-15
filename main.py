@@ -42,9 +42,9 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
             _automatos = []
             for automato in automatos:
                 #Processa o símbolo
-                l = [automato for automato in automato.clonar(simbolo)]
+                lista_automatos = [automato for automato in automato.clonar(simbolo)]
                 #permite que o automato faça transicoes epsilons
-                for aut in l:
+                for aut in lista_automatos:
                     #caso haja uma epsilons entre as próximas transições ele manda um clone realizar ela
                     if 'epsilon' in aut.estado_atual['proximos'] and aut.vivo:
                         h = aut.clonar('epsilon')
@@ -53,8 +53,9 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
                             pulado = a.caminho.pop(-2)
                             a.caminho[-1] = f"{pulado}->{a.caminho[-1]}"
                             #Adiciona o clone que foi pro epsílon na lista
-                            l.append(a)
-                for e in l:
+                            lista_automatos.append(a)
+                            
+                for e in lista_automatos:
                     _automatos.append(e)
                 automatos = _automatos
 

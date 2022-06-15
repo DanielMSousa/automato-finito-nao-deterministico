@@ -5,25 +5,12 @@ mortas = []
 
 class Automato:
     def __init__(self, estados, inicial=None):
-        if(inicial == None):
-            inicial = self.buscando_inicial(estados)
-        
+        self.inicial = inicial
         self.estados = estados
         self.estado_atual = estados[inicial]
         self.caminho = [inicial]
         self.aceito = self.estado_atual['final']
         self.vivo = True
-
-    def checar_inicial(self, estado):
-        if estado['inicial']:
-            return estado
-    
-    def buscando_inicial(self, estados):
-        for estado in estados.keys():
-            inicial = self.checar_inicial(estados[estado])
-            if inicial:
-                print(estado)
-                return estado
 
     def clonar(self, simbolo, registrar=True):
         #caminho é onde os clones colocados
@@ -44,7 +31,6 @@ class Automato:
                 a.aceito = a.estado_atual['final']
 
                 automatos.append(a)
-                continue
         else:
             #Morreu
             if self.caminho[-1]:
