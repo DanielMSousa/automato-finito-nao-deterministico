@@ -1,5 +1,6 @@
 from automato import Automato
 from get_txt import retorna_estados
+from detectar_inicio import procura_epsilon_cadeia
 
 def is_cadeia_aceita(automatos, aceito=False):
     for automato in automatos:
@@ -35,17 +36,10 @@ while (resposta.upper() == 'S' and resposta.upper() != 'N'):
     a = Automato(e)
 
     automatos = [a]
-    for automato in a.clonar('epsilon', False):
-        automatos.append(automato)
-        if 'epsilon' in automato.estado_atual['proximos'] and automato.vivo:
-            h = automato.clonar('epsilon')
-            for a in h:
-                #remove a anterior, pois ele deu um "pulo"
-                pulado = a.caminho.pop(-2)
-                a.caminho[-1] = f"{a.caminho[-1]}"
-                #Adiciona o clone que foi pro epsílon na lista
-                automatos.append(a)
-    
+
+    for inicial in procura_epsilon_cadeia(e, ['q0']):
+        automatos.append(Automato(e, inicial))
+
     if len(cadeia) != 0:
         for simbolo in cadeia:
             _automatos = []

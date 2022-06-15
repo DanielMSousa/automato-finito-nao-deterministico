@@ -4,8 +4,10 @@ import copy
 mortas = []
 
 class Automato:
-    def __init__(self, estados):
-        inicial = self.buscando_inicial(estados)
+    def __init__(self, estados, inicial=None):
+        if(inicial == None):
+            inicial = self.buscando_inicial(estados)
+        
         self.estados = estados
         self.estado_atual = estados[inicial]
         self.caminho = [inicial]
